@@ -1,0 +1,48 @@
+%This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+\newif\iflualatex\lualatexfalse
+\iflualatex
+% --- Using XeLaTeX or LuaLaTeX ---
+\usepackage{fontspec} % Requires XeLaTeX or LuaLaTeX
+\else
+% --- Using pdfLaTex ---
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{lmodern}
+\fi
+
+% --- Additional packages as required by the user ---
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{placeins}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage{verbatimbox}
+\usepackage{subcaption}
+
+% -------------------------------------------------------------%%%
+% --- PDF/A Compliance (should be the last package to load) ---%%%
+% -------------------------------------------------------------%%%
+% !!! No guaranty that the resulting document will actually  !!! %%% 
+% !!! be PDF/A compliant as required by Paderborn University !!! %%%
+\usepackage[a-2b,mathxmp]{pdfx} % Required package for PDF/A compliance
+% Define custom colors for links BEFORE \hypersetup
+\definecolor{myLinkColor}{rgb}{0,0,0}
+\definecolor{myCiteColor}{rgb}{0,0,0}
+\definecolor{myFileColor}{rgb}{0,0,0}
+\definecolor{myURLColor}{rgb}{0,0,0}
+\hypersetup{
+    pdfpagemode=UseOutlines, % Show bookmarks panel by default
+    colorlinks=true,         % Colorize links
+    linkcolor=myLinkColor,   % Using custom defined color
+    citecolor=myCiteColor,   % Using custom defined color
+    urlcolor=myURLColor,     % Using custom defined color
+    filecolor=myFileColor    % Using custom defined color
+}

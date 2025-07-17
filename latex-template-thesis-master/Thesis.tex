@@ -1,0 +1,58 @@
+%This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
+%%%
+% LaTeX Template for Thesis submitted to AG-Bloemer
+% This is just a guideline - modify as you like :)
+% In case of questions/problems/proposals you can write, call or visit me
+% http://cs.uni-paderborn.de/cuk/personal/sascha-brauer/
+% Was heavily modified by Bastian Koppelmann <kbastian@mail.upb.de>
+% Further modifications by Maxim Weizel <mweizel@hni.uni-paderborn.de> 2025
+% Last Update: 16.07.2025 by Maxim Weizel
+%%%
+\pdfminorversion=7
+\documentclass[english]{sctthesis} % add [german] if required
+
+\input{config/config.tex}
+\input{config/includes.tex}
+\input{config/defs.tex}
+
+\begin{document}
+
+\bibliographystyle{plain}
+
+\pagenumbering{roman}
+
+\input{pretext/titlepage.tex}
+
+\input{pretext/declaration.tex}
+
+\tableofcontents
+
+% If you have figures, uncomment this
+\listoffigures
+
+\listoftables
+
+\clearemptydoublepage
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+
+%%%% Input your files here! %%%%%%%
+
+% Introduction
+\input{src/intro.tex}
+
+% Related Work
+\input{src/related.tex}
+
+% Conclusion
+\input{src/concl.tex}
+
+%%
+\bibliography{biblio}
+\appendix
+\addtocontents{toc}{\vspace{2mm}}
+\input{src/appendix.tex}
+
+\end{document}
