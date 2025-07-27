@@ -4,6 +4,7 @@ import pandas as pd
 import re
 import shlex
 
+
 #############################################################
 ###################    Utility functions ####################
 #############################################################
@@ -13,18 +14,33 @@ def generate_coherent_frequencies(f_0, fs, N):
     where K and N are coprime. Works for scalar, 1D or nD f_0.
     Returns f_i (same shape as f_0) and integer K.
     """
+    # Check if N is a power of 2
+    if not (N > 0 and (N & (N - 1)) == 0):
+        print("Warning: N is not a power of 2")
+
     # 1) turn input into an array (ndim ≥0)
     arr = np.asarray(f_0)
     # 2) flatten for easy vector ops
     flat = arr.ravel()
 
     # 3) initial integer-cycle count
-    K = np.floor(flat / fs * N).astype(int)
+    K_init = np.floor(flat / fs * N).astype(int)
 
-    # 4) find where gcd(K,N) != 1 and subtract 1 there
-    #    np.gcd is elementwise
-    mask = np.gcd(K, N) != 1
-    K[mask] -= 1
+    # 4) adjust K values to be co-prime with N
+    def closest_coprime_k(k, N):
+        if np.gcd(k, N) == 1 and k > 0:
+            return k
+        offset = 1
+        while True:
+            lower = k - offset
+            if lower > 0 and np.gcd(lower, N) == 1:
+                return lower
+            upper = k + offset
+            if np.gcd(upper, N) == 1:
+                return upper
+            offset += 1
+
+    K = np.array([closest_coprime_k(k, N) for k in K_init], dtype=int)
 
     # 5) compute the coherent freqs
     f_i_flat = K / N * fs
@@ -47,13 +63,14 @@ def print_hdf5_keys(file_path):
         print("Keys in the HDF5 file:")
         print(keys)
 
+
 #############################################################
 ###################  Load functions #########################
 #############################################################
 def load_cadence_vcsv(path, metadata_row=2, skiprows=6):
     """
     Reads a CSV where:
-      - lines 1,3–6 are ignored,
+      - lines 1,3-6 are ignored,
       - line 2 has entries like either
           SignalName param1 val1 param2 val2 …  (units)
         or
